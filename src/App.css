@@ -1,0 +1,21 @@
+html {
+  background-color: lightseagreen;
+}
+.all {
+  width: 95vw;
+  height: 95vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  color: darkblue;
+  background-color: lightblue;
+  border-radius: 5px;
+  border: 3px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 2.5vh;
+  margin-bottom: 2.5vh;
+  margin-left: 2.5vw;
+  margin-right: 2.5vw;
+}
