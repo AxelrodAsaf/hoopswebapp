@@ -10,9 +10,9 @@ export default function Login() {
   // Make an arrow function to submit the form
   const handleLogin = async (e) => {
     console.log(lowerLoginEmail, loginPass);
-    const response = await axios.post('http://localhost:9999/login', {
-        lowerLoginEmail: lowerLoginEmail,
-        loginPass: loginPass
+    const response = await axios.post('https://tlv-hoops-server.onrender.com/login', {
+      lowerLoginEmail: lowerLoginEmail,
+      loginPass: loginPass
     });
     console.log(response);
     if (response.status === 200) {
@@ -28,8 +28,8 @@ export default function Login() {
         <h3>
           ADMIN LOGIN
         </h3>
-        <input onChange={(e)=> setLowerLoginEmail(e.target.value)}type="text" placeholder="Email" /><br/>
-        <input onChange={(e)=> setLoginPass(e.target.value)}type="password" placeholder="Password" /><br/>
+        <input onChange={(e) => setLowerLoginEmail(e.target.value)} type="text" placeholder="Email" /><br />
+        <input onChange={(e) => setLoginPass(e.target.value)} type="password" placeholder="Password" /><br />
         <button onClick={() => handleLogin()}>Login</button>
       </div>
     </div>

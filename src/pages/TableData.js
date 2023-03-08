@@ -10,8 +10,9 @@ export default function TableData(props) {
   const tableCell = { border: "2px solid black" }
 
   const handleDelete = async (topic, itemId) => {
-    const response = await axios.delete(`http://localhost:9999/${topic}/${itemId._id}`);
-   // remove the deleted item from the data and update the state
+    // eslint-disable-next-line
+    const response = await axios.delete(`https://tlv-hoops-server.onrender.com/${topic}/${itemId._id}`);
+    // remove the deleted item from the data and update the state
     const newData = tableData[topic].data.filter(item => item._id !== itemId);
     setTableData(prevData => ({
       ...prevData,
@@ -24,7 +25,7 @@ export default function TableData(props) {
 
   useEffect(() => {
     async function getTableData(tableType) {
-      const response = await axios.post(`http://localhost:9999/${tableType}list`)
+      const response = await axios.post(`https://tlv-hoops-server.onrender.com/${tableType}list`)
       const tableData = response.data.map(tableItem => {
         const keysToRemove = ['gameID', 'playerID', '=', 'locationName', 'createdByUser', '_id', 'password', '__v'];
         const cleanedTableItem = Object.keys(tableItem).reduce((acc, key) => {
