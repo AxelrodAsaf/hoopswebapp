@@ -11,7 +11,6 @@ export default function Dashboard() {
       <h2>This is where you can see and edit all the information needed.</h2>
         <div className='navBar' style={{display: "flex", flexDirection: "column"}}>
           <p onClick={() => navigate(`/tabledata`)}>Live Data</p>
-          <p onClick={() => navigate(`/addData`)}>Add Information</p>
         </div>
 
         <div className='dashboardContent'>

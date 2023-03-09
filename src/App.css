@@ -19,3 +19,7 @@ html {
   margin-left: 2.5vw;
   margin-right: 2.5vw;
 }
+
+.inputs input {
+  width: 75%;
+}

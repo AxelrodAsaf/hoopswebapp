@@ -14,7 +14,7 @@ export default function TableData(props) {
     async function fetchData() {
       const newData = {};
       for (const topic of tableTopics) {
-        const response = await axios.post(`https://tlv-hoops-server.onrender.com/${topic}list`);
+        const response = await axios.post(`http://localhost:9999/${topic}list`);
         newData[topic] = response.data;
       }
       setTopicData(newData);
