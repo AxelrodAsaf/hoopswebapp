@@ -17,7 +17,6 @@ function App() {
         <Route path={"/login"} element={<Login />} />
         <Route path={"/dashboard"} element={<Dashboard />} />
         <Route path={"/tabledata"} element={<TableData />} />
-        <Route path={"/addData"} element={<AddData />} />
         <Route path="*" element={<Default />} />
       </Routes>
       </div>
