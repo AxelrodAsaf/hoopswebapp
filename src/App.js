@@ -6,7 +6,6 @@ import Login from './pages/Login.js';
 import Default from './pages/Default.js';
 import Dashboard from './pages/Dashboard';
 import TableData from './pages/TableData';
-import AddData from './pages/AddData';
 
 function App() {
   return (
