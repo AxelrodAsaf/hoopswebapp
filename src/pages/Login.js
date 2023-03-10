@@ -13,7 +13,7 @@ export default function Login() {
     try {
       console.log(lowerLoginEmail, loginPass);
       const response = await axios.post('https://tlv-hoops-server.onrender.com/login', {
-        lowerLoginEmail: lowerLoginEmail,
+        lowerLoginEmail: lowerLoginEmail.toLowerCase(),
         loginPass: loginPass
       });
       console.log(response);
@@ -40,7 +40,7 @@ export default function Login() {
           </h3>
           <input onChange={(e) => setLowerLoginEmail(e.target.value)} type="text" placeholder="Email" /><br />
           <input onChange={(e) => setLoginPass(e.target.value)} type="password" placeholder="Password" /><br />
-          <button onClick={() => handleLogin()}>LOG IN</button>
+          <button onClick={() => handleLogin()} style={{ width: "5%", height: "5%", fontWeight: "bold", backgroundColor: "teal", color: "white" }}>LOG IN</button>
         </>
       </div>
       {setErrorDisplay ? <h1 style={{ color: "red", fontWeight: "bolder" }}>{errorDisplay}</h1> : null}

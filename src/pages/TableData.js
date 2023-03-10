@@ -105,9 +105,9 @@ export default function TableData(props) {
       backgroundColor: "rgba(255,0,0, 0.15)"
     } : null}>
       <div className='tableData'>
-        <div className='navbar' style={{ width: "50vw", display: "flex", flexDirection: "row", justifyContent: "space-between", textDecoration: "underline" }}>
-          <h1 onClick={() => navigate(`/login`)}>LOG OUT</h1>
-          <h1 onClick={() => navigate(`/dashboard`)}>BACK</h1>
+        <div className='navbar' style={{ width: "50vw", height: "5vh", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+          <button style={{ marginTop: "5vh", width: "25%", height: "100%", fontWeight: "bold", backgroundColor: "teal", color: "white" }} onClick={() => navigate(`/login`)}>LOG OUT</button>
+          <button style={{ marginTop: "5vh", width: "25%", height: "100%", fontWeight: "bold", backgroundColor: "teal", color: "white" }} onClick={() => navigate(`/dashboard`)}>BACK</button>
         </div>
         <h5>Please make sure to check and uncheck boxes as needed.</h5>
         <div className='pageContent'>
