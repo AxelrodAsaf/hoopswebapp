@@ -105,8 +105,9 @@ export default function TableData(props) {
       backgroundColor: "rgba(255,0,0, 0.15)"
     } : null}>
       <div className='tableData'>
-        <div className='navbar'>
-          <h1 onClick={() => navigate(`/dashboard`)}>Back</h1>
+        <div className='navbar' style={{ width: "50vw", display: "flex", flexDirection: "row", justifyContent: "space-between", textDecoration: "underline" }}>
+          <h1 onClick={() => navigate(`/login`)}>LOG OUT</h1>
+          <h1 onClick={() => navigate(`/dashboard`)}>BACK</h1>
         </div>
         <h5>Please make sure to check and uncheck boxes as needed.</h5>
         <div className='pageContent'>
@@ -120,7 +121,7 @@ export default function TableData(props) {
           </div>
           {["game", "location", "player"].map(topic => (
             <div className='topicTable' key={topic}>
-              <h1>{`All ${topic}s`}</h1>
+              <h1 style={{ textTransform: "uppercase" }}>{`${topic}s`}</h1>
               <table style={tableStyling}>
                 <thead>
                   <tr>

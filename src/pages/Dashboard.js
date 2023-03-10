@@ -7,14 +7,15 @@ export default function Dashboard() {
 
   return (
     <div className='dashboard'>
-        <h1>Hello there! Welcome to the TLV-Hoops admin area.</h1>
-        <h2>This is where you can see and edit all the information needed.</h2>
-        <div className='navBar' style={{ display: "flex", flexDirection: "column" }}>
-          <button onClick={() => navigate(`/tabledata`)}>Live Data</button>
-        </div>
+      <h1>Hello there! Welcome to the TLV-Hoops admin area.</h1>
+      <h2>This is where you can see and edit all the information needed.</h2>
+      <div className='navBar' style={{ display: "flex", flexDirection: "column" }}>
+        <button onClick={() => navigate(`/tabledata`)}>LIVE DATA</button> <br />
+        <button onClick={() => navigate(`/login`)}>LOG OUT</button>
+      </div>
 
-        <div className='dashboardContent'>
-        </div>
+      <div className='dashboardContent'>
+      </div>
     </div>
   )
 }
