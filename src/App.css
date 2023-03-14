@@ -1,5 +1,61 @@
 html {
-  background-color: lightseagreen;
+  background-color: #3a98b9;
+  /* background-color: rgba(0, 0, 0, 0.85); */
+  overflow: hidden;
+}
+
+
+table input {  /* ***This is for inputs WITHIN tables - not tables AND inputs */
+  width: 90% !important;
+}
+
+input,
+select {
+  border-radius: 20px;
+  border: none;
+}
+
+button {
+  font-weight: bold;
+  background-color: #3a98b9;
+  color: white;
+  border: white solid 1px;
+  border-radius: 20px;
+}
+
+button:hover {
+  font-weight: bolder;
+  background-color: white;
+  color: #3a98b9;
+  border: none solid 1px;
+}
+
+.flipButton {
+  background-color: white;
+  color: #3a98b9;
+  border: none solid 1px;
+  border-radius: 20px;
+}
+
+.flipButton:hover {
+  background-color: #3a98b9;
+  color: white;
+  border: white solid 1px;
+}
+
+input[type="checkbox"]:checked {
+  accent-color: #3a98b9;
+}
+
+tr input[type="checkbox"]:hover {
+  accent-color: #3a98b9;
+}
+
+.tableStyling {
+  border-collapse: collapse;
+  border: 2px solid black;
+  background-color: rgba(0, 0, 0, 0.15);
+  width: 100%;
 }
 
 .dashboard {
@@ -15,8 +71,8 @@ html {
   width: 95vw;
   height: 95vh;
   overflow-x: hidden;
-  color: darkblue;
-  background-color: lightblue;
+  color: white;
+  background-color: #3a98b9;
   border-radius: 5px;
   border: 3px solid black;
   text-align: center;
@@ -41,12 +97,8 @@ html {
   flex-direction: column;
 }
 
-table input {
-  width: 90%;
-}
-
 thead {
-  background-color: darkblue;
+  background-color: rgba(0, 0, 0, 0.25);
   color: white;
 }
 
@@ -55,7 +107,7 @@ thead {
 }
 
 .addInformation {
-  background-color: gray;
+  background-color: rgba(0, 0, 0, 0.5);
   border-bottom: 1px solid red;
 }
 

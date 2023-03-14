@@ -1,15 +1,15 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import '../../src/App.css'
+import '../App.css'
 
 export default function TableData(props) {
   const [tableData, setTableData] = useState({});
   const [inputValues, setInputValues] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
   const [errorStyle, setErrorStyle] = useState(false);
+  const [activeButton, setActiveButton] = useState('games');
   const navigate = useNavigate();
-  const tableStyling = { borderCollapse: "collapse", border: "2px solid black", backgroundColor: "rgba(0, 0, 0, 0.15)", width: "100%" }
   const tableHeader = { border: "2px solid black" }
   const tableCell = { border: "2px solid black" }
 
@@ -23,7 +23,6 @@ export default function TableData(props) {
     try {
       const response = await axios.post(`https://tlv-hoops-server.onrender.com/remove${topic}`,
         {
-          locationID: itemId.locationID,
           gameID: itemId.gameID,
           playerID: itemId.playerID
         })
@@ -41,11 +40,12 @@ export default function TableData(props) {
     console.log(`Trying to add information.`);
     console.log("Topic:", topic);
     console.log(inputValues)
+    setInputValues({ ...inputValues, participants: [] })
     // Send a request to the server to add the item using the inputData object
     try {
       const response = await axios.post(`https://tlv-hoops-server.onrender.com/add${topic}`, inputValues);
       console.log(response);
-      reloadPage();
+      // reloadPage();
     }
     catch (error) {
       console.log(error.message);
@@ -58,7 +58,7 @@ export default function TableData(props) {
     async function getTableData(tableType) {
       const response = await axios.post(`https://tlv-hoops-server.onrender.com/${tableType}list`)
       const tableData = response.data.map(tableItem => {
-        const keysToRemove = ['locationName', 'createdByUser', '_id', 'password', '__v'];
+        const keysToRemove = ['createdByUser', '_id', 'password', '__v', 'requests'];
         const cleanedTableItem = Object.keys(tableItem).reduce((acc, key) => {
           if (!keysToRemove.includes(key)) {
             acc[key] = tableItem[key];
@@ -67,7 +67,7 @@ export default function TableData(props) {
             acc[key] = (
               <ul>
                 {tableItem[key].map(participant => (
-                  <li>{participant.firstName} {participant.lastName}</li>
+                  <li>{participant}</li>
                 ))}
               </ul>
             );
@@ -77,7 +77,7 @@ export default function TableData(props) {
         return cleanedTableItem;
       })
       const headers = [...Object.keys(tableData[0]), ''];
-      const hideHeaders = ["gameID", ".", "playerID"];
+      const hideHeaders = ["gameID", "playerID", "approved"];
       const displayHeaders = headers.filter(header => !hideHeaders.includes(header));
 
       setTableData(prevData => ({
@@ -90,7 +90,7 @@ export default function TableData(props) {
     }
 
     async function getTables() {
-      ["game", "player", "location"].forEach(async (tableTopic) => {
+      ["game", "player"].forEach(async (tableTopic) => {
         await getTableData(tableTopic);
       });
     }
@@ -106,8 +106,8 @@ export default function TableData(props) {
     } : null}>
       <div className='tableData'>
         <div className='navbar' style={{ width: "50vw", height: "5vh", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-          <button style={{ marginTop: "5vh", width: "25%", height: "100%", fontWeight: "bold", backgroundColor: "teal", color: "white" }} onClick={() => navigate(`/login`)}>LOG OUT</button>
-          <button style={{ marginTop: "5vh", width: "25%", height: "100%", fontWeight: "bold", backgroundColor: "teal", color: "white" }} onClick={() => navigate(`/dashboard`)}>BACK</button>
+          <button style={{ marginTop: "5vh", width: "20%", height: "80%" }} onClick={() => navigate(`/dashboard`)}>BACK</button>
+          <button style={{ marginTop: "5vh", width: "20%", height: "80%" }} onClick={() => navigate(`/login`)}>LOG OUT</button>
         </div>
         <h5>Please make sure to check and uncheck boxes as needed.</h5>
         <div className='pageContent'>
@@ -119,14 +119,22 @@ export default function TableData(props) {
           } : { display: "none" }}>
             {errorMessage}
           </div>
-          {["game", "location", "player"].map(topic => (
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+            <button onMouseEnter={(e) => e.target.style.color = "black"} onClick={() => setActiveButton("games")} style={{ color: "black", width: "20vw", justifyContent: "center", alignItems: "center", backgroundColor: activeButton === "games" ? "white" : "transparent", border: "none", fontSize: "20px", fontWeight: "bold", marginBottom: "20px" }}>GAMES</  button>
+            <button onMouseEnter={(e) => e.target.style.color = "black"} onClick={() => setActiveButton("players")} style={{ color: "black", width: "20vw", justifyContent: "center", alignItems: "center", backgroundColor: activeButton === "players" ? "white" : "transparent", border: "none", fontSize: "20px", fontWeight: "bold", marginBottom: "20px" }}>PLAYERS</button>
+          </div>
+
+          {["game", "player"].map(topic => (
             <div className='topicTable' key={topic}>
               <h1 style={{ textTransform: "uppercase" }}>{`${topic}s`}</h1>
-              <table style={tableStyling}>
+              <table className='tableStyling'>
                 <thead>
                   <tr>
                     {tableData[topic]?.headers.map((header, index) => (
-                      <th key={index} style={{ ...tableHeader }}>{header}</th>
+                      <th key={index} style={{ ...tableHeader }}>{header === "tlvpremium" ? "TLV Premium" :
+                        header.replace(/([A-Z])/g, ' $1').replace(/^./, function (str) {
+                          return str.toUpperCase();
+                        })}</th>
                     ))}
                     <th>+/x</th>
                   </tr>
@@ -137,7 +145,7 @@ export default function TableData(props) {
                       {tableData[topic]?.headers.map((header, index) => (
                         <td key={index} style={tableCell}>
                           {typeof item[header] === 'boolean' ? (
-                            <input type="checkbox" checked={item[header]} readOnly />
+                            <input className='checkbox' type="checkbox" checked={item[header]} readOnly />
                           ) : (
                             item[header]
                           )}
@@ -160,16 +168,6 @@ export default function TableData(props) {
                             header === 'showers' ||
                             header === 'vendingMachine' ||
                             header === 'admin' ? (
-                            <input
-                              type="checkbox"
-                              onChange={(e) =>
-                                setInputValues({
-                                  ...inputValues,
-                                  [header]: e.target.checked,
-                                })
-                              }
-                            />
-                          ) : (header === 'participants') ? (
                             null
                           ) : (
                             header === 'date' ||

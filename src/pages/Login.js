@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../App.css';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -32,15 +33,15 @@ export default function Login() {
 
   return (
     <div>
-      <div style={{ width: "90vw", height: "75vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+      <div style={{ width: "100vw", height: "75vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
         <>
-          <h1>TLV- Hoops</h1>
+          <h1>TLV - HOOPS</h1>
           <h3>
             ADMIN LOGIN
           </h3>
           <input onChange={(e) => setLowerLoginEmail(e.target.value)} type="text" placeholder="Email" /><br />
           <input onChange={(e) => setLoginPass(e.target.value)} type="password" placeholder="Password" /><br />
-          <button onClick={() => handleLogin()} style={{ width: "5%", height: "5%", fontWeight: "bold", backgroundColor: "teal", color: "white" }}>LOG IN</button>
+          <button onClick={() => handleLogin()} style={{ width: "5%", height: "5%" }}>LOG IN</button>
         </>
       </div>
       {setErrorDisplay ? <h1 style={{ color: "red", fontWeight: "bolder" }}>{errorDisplay}</h1> : null}
