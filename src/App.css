@@ -1,6 +1,5 @@
 html {
   background-color: #3a98b9;
-  /* background-color: rgba(0, 0, 0, 0.85); */
   overflow: hidden;
 }
 
@@ -11,7 +10,7 @@ table input {  /* ***This is for inputs WITHIN tables - not tables AND inputs */
 
 input,
 select {
-  border-radius: 20px;
+  border-radius: 5px;
   border: none;
 }
 
@@ -20,7 +19,7 @@ button {
   background-color: #3a98b9;
   color: white;
   border: white solid 1px;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 
 button:hover {
@@ -34,7 +33,7 @@ button:hover {
   background-color: white;
   color: #3a98b9;
   border: none solid 1px;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 
 .flipButton:hover {
@@ -73,7 +72,7 @@ tr input[type="checkbox"]:hover {
   overflow-x: hidden;
   color: white;
   background-color: #3a98b9;
-  border-radius: 5px;
+  border-radius: 5%;
   border: 3px solid black;
   text-align: center;
   margin-top: 2.5vh;

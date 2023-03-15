@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
+import logo from '../logo.png';
 
 export default function Default() {
   const navigate = useNavigate();
@@ -19,14 +20,15 @@ export default function Default() {
         ...updatedPlayer,
         email: selectedPlayerObject.email,
       };
-      console.log(userUpdateObject);
       const response = await axios.post(
-        'https://tlv-hoops-server.onrender.com/editPlayer',
+        'http://localhost:9999/editPlayer',
         userUpdateObject
       );
-      console.log(response);
+      if (response.status === 200) {
+        setErrorMessage('Player updated successfully');
+        setErrorStyle(true);
+      }
     } catch (error) {
-      console.log(error);
       setErrorStyle(true);
       setErrorMessage(error.message);
     }
@@ -38,15 +40,13 @@ export default function Default() {
     const getData = async () => {
       try {
         // Get the list of users from the database using an axios post request
-        const response = await axios.post('https://tlv-hoops-server.onrender.com/playerList')
+        const response = await axios.post('http://localhost:9999/playerList')
         const playerList = response.data;
-        // console.log(playerList);
         setPlayerList(playerList);
         // Get the keys of the first player's object
         setErrorStyle(true);
         setErrorMessage(response.message);
       } catch (error) {
-        console.log(error);
         setErrorStyle(true);
         setErrorMessage(error.message);
       }
@@ -79,12 +79,15 @@ export default function Default() {
           fontWeight: "bold",
           fontSize: "200%",
           textDecoration: "underline",
+          padding: "3vh"
         } : { display: "none" }}>
           {errorMessage}
         </div>
+
+          <img src={logo} style={{ width: "10vw", height: "10vw", marginLeft: "0vw", marginTop: "-3vh", marginBottom: "0vh", zIndex: "50" }} alt="logo" />
           <div>
-            <button style={{ marginTop: "5vh", width: "20%", height: "80%" }} onClick={() => navigate(`/dashboard`)}>BACK</button>
-            <button style={{ marginTop: "5vh", width: "20%", height: "80%" }} onClick={() => navigate(`/login`)}>LOG OUT</button>
+            <button onClick={() => navigate(`/dashboard`)}>BACK</button>
+            <button onClick={() => navigate(`/login`)}>LOG OUT</button>
           </div>
           <h1>EDIT A PLAYER</h1>
           <h3>
@@ -94,22 +97,30 @@ export default function Default() {
         <div>
           <label htmlFor="email">Email: </label><br />
           <select onChange={playerProfilePicked} value={selectedPlayerObject && selectedPlayerObject.email}>
-            {selectedPlayerObject ? (
-              playerList.map((player) => (
-                <option key={player.email} value={player.email}>
-                  {player.email}
-                </option>
-              ))
-            ) : (
-              <>
-                <option value="">Select a Player</option>
-                {playerList.map((player) => (
-                  <option key={player.email} value={player.email}>
-                    {player.email}
-                  </option>
-                ))}
-              </>
-            )}
+            {selectedPlayerObject ?
+              (
+                playerList
+                  .sort((a, b) => a.email.localeCompare(b.email)) // Sort the array alphabetically by email
+                  .map((player) => (
+                    <option key={player.email} value={player.email}>
+                      {player.email}
+                    </option>
+                  ))
+              ) : (
+                <>
+                  <option value="">Select a Player</option>
+                  {playerList
+                    .sort((a, b) => a.email.localeCompare(b.email)) // Sort the array alphabetically by email
+                    .map((player) => (
+                      <option key={player.email} value={player.email}>
+                        {player.email}
+                      </option>
+                    ))
+                  }
+                </>
+              )
+            }
+
           </select>
           {playerKeys.length > 0 &&
             <div>
@@ -151,7 +162,7 @@ export default function Default() {
             </div>
           }
           {playerKeys.length > 0 &&
-            <button onClick={handleUpdate}>UPDATE</button>
+            <button style={{ width: "5vw", height: "3vh" }} onClick={handleUpdate}>UPDATE</button>
           }
         </div>
       </div>
