@@ -21,7 +21,7 @@ export default function Default() {
         email: selectedPlayerObject.email,
       };
       const response = await axios.post(
-        'http://localhost:9999/editPlayer',
+        'https://tlv-hoops-server.onrender.com/editPlayer',
         userUpdateObject
       );
       if (response.status === 200) {
@@ -40,7 +40,7 @@ export default function Default() {
     const getData = async () => {
       try {
         // Get the list of users from the database using an axios post request
-        const response = await axios.post('http://localhost:9999/playerList')
+        const response = await axios.post('https://tlv-hoops-server.onrender.com/playerList')
         const playerList = response.data;
         setPlayerList(playerList);
         // Get the keys of the first player's object

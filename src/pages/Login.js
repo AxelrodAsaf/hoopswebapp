@@ -14,7 +14,7 @@ export default function Login() {
   // Make an arrow function to submit the form
   const handleLogin = async (e) => {
     try {
-      const response = await axios.post('http://localhost:9999/login', {
+      const response = await axios.post('https://tlv-hoops-server.onrender.com/login', {
         lowerLoginEmail: lowerLoginEmail.toLowerCase(),
         loginPass: loginPass
       });

@@ -21,7 +21,7 @@ export default function TableData(props) {
   const handleDelete = async (topic, itemId) => {
     // Send a request to the server to delete the item
     try {
-      const response = await axios.post(`http://localhost:9999/remove${topic}`,
+      const response = await axios.post(`https://tlv-hoops-server.onrender.com/remove${topic}`,
         {
           gameID: itemId.gameID,
           playerID: itemId.playerID
@@ -38,7 +38,7 @@ export default function TableData(props) {
     setInputValues({ ...inputValues, participants: [] })
     // Send a request to the server to add the item using the inputData object
     try {
-      const response = await axios.post(`http://localhost:9999/add${topic}`, inputValues);
+      const response = await axios.post(`https://tlv-hoops-server.onrender.com/add${topic}`, inputValues);
       // reloadPage();
     }
     catch (error) {
@@ -49,7 +49,7 @@ export default function TableData(props) {
 
   useEffect(() => {
     async function getTableData(tableType) {
-      const response = await axios.post(`http://localhost:9999/${tableType}list`)
+      const response = await axios.post(`https://tlv-hoops-server.onrender.com/${tableType}list`)
       const tableData = response.data.map(tableItem => {
         const keysToRemove = ['createdByUser', '_id', 'password', '__v', 'requests', 'requestArray'];
         const cleanedTableItem = Object.keys(tableItem).reduce((acc, key) => {
@@ -257,7 +257,7 @@ export default function TableData(props) {
                 </tbody>
               </table>
             </>
-          )} 
+          )}
 
 
 

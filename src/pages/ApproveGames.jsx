@@ -19,7 +19,7 @@ export default function ApproveGames() {
 
   useEffect(() => {
     async function getTableData() {
-      const response = await axios.post(`http://localhost:9999/allGamesList`)
+      const response = await axios.post(`https://tlv-hoops-server.onrender.com/allGamesList`)
       const tableData = response.data.map(tableItem => {
         const keysToRemove = ['createdByUser', '_id', 'password', '__v', 'requests', 'requestArray'];
         const cleanedTableItem = Object.keys(tableItem).reduce((acc, key) => {
@@ -67,7 +67,7 @@ export default function ApproveGames() {
   const handleApprove = async (row) => {
     // Send a request to the server to approve the item
     try {
-      const response = await axios.post(`http://localhost:9999/approveGame`,
+      const response = await axios.post(`https://tlv-hoops-server.onrender.com/approveGame`,
         {
           gameID: row.gameID,
         })
@@ -80,7 +80,7 @@ export default function ApproveGames() {
   const handleDelete = async (row) => {
     // Send a request to the server to delete the item
     try {
-      const response = await axios.post(`http://localhost:9999/removeGame`,
+      const response = await axios.post(`https://tlv-hoops-server.onrender.com/removeGame`,
         {
           gameID: row.gameID,
         })
