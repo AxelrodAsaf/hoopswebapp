@@ -72,6 +72,7 @@ export default function ApproveGames() {
           gameID: row.gameID,
         })
       reloadPage();
+      console.log(response);
     }
     catch (error) {
     }
@@ -85,6 +86,7 @@ export default function ApproveGames() {
           gameID: row.gameID,
         })
       reloadPage();
+      console.log(response);
     }
     catch (error) {
     }

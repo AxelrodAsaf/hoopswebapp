@@ -27,6 +27,7 @@ export default function TableData(props) {
           playerID: itemId.playerID
         })
       reloadPage();
+      console.log(response);
     }
     catch (error) {
       setErrorStyle(true);
@@ -39,7 +40,8 @@ export default function TableData(props) {
     // Send a request to the server to add the item using the inputData object
     try {
       const response = await axios.post(`https://tlv-hoops-server.onrender.com/add${topic}`, inputValues);
-      // reloadPage();
+      reloadPage();
+      console.log(response);
     }
     catch (error) {
       setErrorStyle(true);
