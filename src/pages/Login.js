@@ -35,7 +35,9 @@ export default function Login() {
     <div>
       <div style={{ width: "100vw", height: "75vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
         <img src={logo} style={{ width: "10vw", height: "10vw" }} alt="logo" />
-        <h1>TLV - HOOPS</h1>
+        <br />
+        <br />
+        <br />
         <h3>
           ADMIN LOGIN
         </h3>

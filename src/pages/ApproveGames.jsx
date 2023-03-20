@@ -12,14 +12,25 @@ export default function ApproveGames() {
   const tableHeader = { border: "2px solid black" }
   const tableCell = { border: "2px solid black" }
   const [showAnimation, setShowAnimation] = useState(true);
-
+  function logout() {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
   function reloadPage() {
     window.location.reload();
   }
 
   useEffect(() => {
+    // On start, check if there is a token in local storage
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+    }
+
     async function getTableData() {
-      const response = await axios.post(`https://tlv-hoops-server.onrender.com/allGamesList`)
+      const response = await axios.post(`https://tlv-hoops-server.onrender.com/allGamesList`,
+        {
+          Authorization: localStorage.getItem('token')
+        })
       const tableData = response.data.map(tableItem => {
         const keysToRemove = ['createdByUser', '_id', 'password', '__v', 'requests', 'requestArray'];
         const cleanedTableItem = Object.keys(tableItem).reduce((acc, key) => {
@@ -62,13 +73,14 @@ export default function ApproveGames() {
 
     getTableData();
 
-  }, [])
+  }, [navigate])
 
   const handleApprove = async (row) => {
     // Send a request to the server to approve the item
     try {
       const response = await axios.post(`https://tlv-hoops-server.onrender.com/approveGame`,
         {
+          Authorization: localStorage.getItem('token'),
           gameID: row.gameID,
         })
       reloadPage();
@@ -83,6 +95,7 @@ export default function ApproveGames() {
     try {
       const response = await axios.post(`https://tlv-hoops-server.onrender.com/removeGame`,
         {
+          Authorization: localStorage.getItem('token'),
           gameID: row.gameID,
         })
       reloadPage();
@@ -106,7 +119,7 @@ export default function ApproveGames() {
       <img src={logo} style={{ width: "10vw", height: "10vw", marginLeft: "0vw", marginTop: "0vh", zIndex: "50" }} alt="logo" />
       <div>
         <button onClick={() => navigate(`/dashboard`)}>BACK</button>
-        <button onClick={() => navigate(`/login`)}>LOG OUT</button>
+        <button onClick={() => logout()}>LOG OUT</button>
         <h1>
           Approve Games
         </h1>

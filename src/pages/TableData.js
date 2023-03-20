@@ -6,7 +6,6 @@ import logo from '../logo.png';
 
 export default function TableData(props) {
   const [tableData, setTableData] = useState({});
-  const [inputValues, setInputValues] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
   const [errorStyle, setErrorStyle] = useState(false);
   const [activeButton, setActiveButton] = useState('games');
@@ -18,11 +17,17 @@ export default function TableData(props) {
     window.location.reload();
   }
 
+  function logout() {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
+
   const handleDelete = async (topic, itemId) => {
     // Send a request to the server to delete the item
     try {
       const response = await axios.post(`https://tlv-hoops-server.onrender.com/remove${topic}`,
         {
+          Authorization: localStorage.getItem('token'),
           gameID: itemId.gameID,
           playerID: itemId.playerID
         })
@@ -35,23 +40,17 @@ export default function TableData(props) {
     }
   }
 
-  const handleAdd = async (topic) => {
-    setInputValues({ ...inputValues, participants: [] })
-    // Send a request to the server to add the item using the inputData object
-    try {
-      const response = await axios.post(`https://tlv-hoops-server.onrender.com/add${topic}`, inputValues);
-      reloadPage();
-      console.log(response);
-    }
-    catch (error) {
-      setErrorStyle(true);
-      setErrorMessage(error.message);
-    }
-  };
-
   useEffect(() => {
+    // On start, check if there is a token in local storage
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+    }
     async function getTableData(tableType) {
-      const response = await axios.post(`https://tlv-hoops-server.onrender.com/${tableType}list`)
+      // Send a request to the server to get the table data using the token as well.
+      const response = await axios.post(`https://tlv-hoops-server.onrender.com/${tableType}list`,
+        {
+          Authorization: localStorage.getItem('token')
+        })
       const tableData = response.data.map(tableItem => {
         const keysToRemove = ['createdByUser', '_id', 'password', '__v', 'requests', 'requestArray'];
         const cleanedTableItem = Object.keys(tableItem).reduce((acc, key) => {
@@ -91,7 +90,7 @@ export default function TableData(props) {
     }
 
     getTables();
-  }, [])
+  }, [navigate])
 
   return (
     <div style={errorStyle ? {
@@ -103,7 +102,7 @@ export default function TableData(props) {
       <div className='tableData'>
         <div className='navbar' style={{ width: "50vw", height: "5vh", display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <button onClick={() => navigate(`/dashboard`)}>BACK</button>
-          <button onClick={() => navigate(`/login`)}>LOG OUT</button>
+          <button onClick={() => logout()}>LOG OUT</button>
         </div>
         <h5 style={{ marginTop: "0vh" }}>Please make sure to check and uncheck boxes as needed.</h5>
         <div className='pageContent'>
@@ -165,54 +164,6 @@ export default function TableData(props) {
                       </tr>
                     ))
                   }
-                  < tr className='addInformation'>
-                    {tableData['game']?.headers.map((header, index) => (
-                      <td key={index} style={tableCell}>
-                        {
-                          header === "delete" ? (
-                            <button onClick={() => handleAdd('game')}>+</button>
-                          ) :
-                            header === 'approved' ||
-                              header === 'tlvpremium' ||
-                              header === 'indoor' ||
-                              header === 'admin' ? (
-                              null
-                            ) : (
-                              header === 'date' ||
-                              header === 'startTime' ||
-                              header === 'endTime' ||
-                              header === 'maximumPlayers' ||
-                              header === 'ageMin' ||
-                              header === 'ageMax' ||
-                              header === 'price' ||
-                              header === 'courtNumber' ||
-                              header === 'benchSpace'
-                            ) ? (
-                              // <input type="number" placeholder={header} onChange={(e) => setInputValues({ ...inputValues, [header]: e.target.value })} />
-                              <input
-                                type="number"
-                                placeholder={header.replace(/([A-Z])/g, ' $1').replace(/^./, function (str) { return str.toUpperCase(); })}
-                                onChange={(e) => setInputValues({ ...inputValues, [header]: e.target.value })} />
-                            ) :
-                              (
-                                header.trim() !== '' && (
-                                  <input
-                                    placeholder={header.replace(/([A-Z])/g, ' $1').replace(/^./, function (str) { return str.toUpperCase(); })}
-                                    onChange={(e) =>
-                                      setInputValues({
-                                        ...inputValues,
-                                        [header]: e.target.value,
-                                      })
-                                    }
-                                  />
-                                )
-                              )}
-                      </td>
-                    ))}
-                    <td style={tableCell}>
-                      <button onClick={() => handleAdd('game')}>+</button>
-                    </td>
-                  </tr>
                 </tbody>
               </table>
             </>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 import logo from '../logo.png';
@@ -6,6 +6,17 @@ import logo from '../logo.png';
 export default function Dashboard() {
   const navigate = useNavigate();
 
+  // On start, check if there is a token in local storage
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+    }
+  }, [navigate])
+
+  function logout() {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
 
   return (
     <div className='dashboard'>
@@ -19,7 +30,7 @@ export default function Dashboard() {
           <button style={{ height: "100%" }} onClick={() => navigate(`/editplayer`)}>EDIT PLAYER</button>
         </div>
         <br />
-        <button style={{ height: "5vh", width: "20vw" }} onClick={() => navigate(`/login`)}>LOG OUT</button>
+        <button style={{ height: "5vh", width: "20vw" }} onClick={() => logout()}>LOG OUT</button>
       </div>
 
       <div className='dashboardContent'>

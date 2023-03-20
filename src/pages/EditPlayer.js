@@ -13,6 +13,10 @@ export default function Default() {
   const [errorStyle, setErrorStyle] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  function logout() {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
 
   const handleUpdate = async () => {
     try {
@@ -22,7 +26,10 @@ export default function Default() {
       };
       const response = await axios.post(
         'https://tlv-hoops-server.onrender.com/editPlayer',
-        userUpdateObject
+        {
+          Authorization: localStorage.getItem('token'),
+          userUpdateObject
+        }
       );
       if (response.status === 200) {
         setErrorMessage('Player updated successfully');
@@ -37,10 +44,17 @@ export default function Default() {
 
 
   useEffect(() => {
+    // On start, check if there is a token in local storage
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+    }
     const getData = async () => {
       try {
         // Get the list of users from the database using an axios post request
-        const response = await axios.post('https://tlv-hoops-server.onrender.com/playerList')
+        const response = await axios.post('https://tlv-hoops-server.onrender.com/playerList',
+          {
+            Authorization: localStorage.getItem('token')
+          })
         const playerList = response.data;
         setPlayerList(playerList);
         // Get the keys of the first player's object
@@ -52,7 +66,7 @@ export default function Default() {
       }
     };
     getData();
-  }, []);
+  }, [navigate]);
   const playerProfilePicked = async (e) => {
     if (playerList.length > 0) {
       setPlayerKeys(Object.keys(playerList[0]));
@@ -87,7 +101,7 @@ export default function Default() {
           <img src={logo} style={{ width: "10vw", height: "10vw", marginLeft: "0vw", marginTop: "-3vh", marginBottom: "0vh", zIndex: "50" }} alt="logo" />
           <div>
             <button onClick={() => navigate(`/dashboard`)}>BACK</button>
-            <button onClick={() => navigate(`/login`)}>LOG OUT</button>
+            <button onClick={() => logout()}>LOG OUT</button>
           </div>
           <h1>EDIT A PLAYER</h1>
           <h3>
